@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const host = "http://localhost:5000";
+const host = "https://notebar-be.onrender.com";
 
 function Register(props) {
   const [credentials, setCredentials] = useState({
