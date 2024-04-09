@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserContext from "./userContext";
 
 function UserState(props) {
-  const host = "https://notebar-be.onrender.com/";
+  const host = "https://notebar-be.onrender.com";
   const userInitial = [];
   
   const getUser = async () => {
