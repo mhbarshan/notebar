@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext.js";
+import Spinner from './Spinner';
 import NoteItem from "./NoteItem.js";
 import AddNote from "./AddNote.js";
 import { useNavigate } from "react-router-dom";
 
 function Notes(props) {
   const context = useContext(noteContext);
-  const { notes, getNote, editNote } = context;
+  const { notes, getNote, editNote,loading } = context;
   const {showAlert} = props
   let navigate = useNavigate()
   useEffect(() => {
@@ -164,6 +165,7 @@ function Notes(props) {
         <div className="container mx-3">
           {notes.length === 0 && "No Notes to display"}
         </div>
+        {loading && <Spinner />}
         {notes.map((note) => {
           return (
             <NoteItem showAlert={showAlert} key={note._id} updateNote={updateNote} note={note} />
