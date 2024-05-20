@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const host = "https://notebar-be.onrender.com";
 import Spinner from './Spinner';
+
+const host = "https://notebar-be.onrender.com";
+
 
 function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
