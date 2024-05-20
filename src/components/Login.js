@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const host = "https://notebar-be.onrender.com";
+import Spinner from './Spinner';
 
 function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const response = await fetch(`${host}/api/auth/login`, {
       method: "POST",
       headers: {
@@ -25,15 +28,19 @@ function Login(props) {
       props.showAlert("Welcome!!!", "success");
       localStorage.setItem("token", json.authToken);
       navigate("/");
+      setLoading(false);
     } else {
       props.showAlert("Invalid Credintials", "danger");
+      setLoading(false);
     }
   };
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   return (
-    <div className="loginBody">
+    <>
+    {loading && <Spinner />}
+    {!loadung && <div className="loginBody">
       <div className="container login">
         <form onSubmit={handleSubmit}>
           <h1>Login to NoteBar</h1>
@@ -69,7 +76,8 @@ function Login(props) {
           </button>
         </form>
       </div>
-    </div>
+    </div>}
+</>
   );
 }
 
