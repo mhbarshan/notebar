@@ -40,7 +40,7 @@ function Login(props) {
   return (
     <>
     {loading && <Spinner />}
-    {!loadung && <div className="loginBody">
+    {!loading && <div className="loginBody">
       <div className="container login">
         <form onSubmit={handleSubmit}>
           <h1>Login to NoteBar</h1>
