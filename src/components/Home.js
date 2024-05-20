@@ -1,9 +1,10 @@
 import React,{useContext, useEffect} from 'react'
 import Notes from './Notes';
+import Spinner from './Spinner';
 import userContext from '../context/notes/userContext';
 function Home(props) {
   const context = useContext(userContext);
-  const {user, getUser} = context;
+  const {user, getUser,loading} = context;
   useEffect(() => {
       getUser();
     //eslint-disable-next-line
@@ -15,8 +16,11 @@ function Home(props) {
   // console.log(name)
   return (
     <div className='container'>
+      
     <div style={{paddingBottom:"20px"}}>
-     <h5>Welcome</h5> <h1>{name}</h1> 
+     <h5>Welcome</h5>
+     {loading && <Spinner />}
+    <h1>{name}</h1> 
     
     </div>
 
