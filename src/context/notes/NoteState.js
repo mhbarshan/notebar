@@ -4,9 +4,11 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
   const host = "https://notebar-be.onrender.com";
   const notesInitial = [];
-  //Get All Notes
+   //Get All Notes
+  const [loading, setLoading] = useState(false);
   const getNote = async () => {
     //todo api call
+    setLoading(true);
     const response = await fetch(`${host}/api/notes/fetchallnotes/`, {
       method: "GET",
       headers: {
@@ -17,6 +19,7 @@ const NoteState = (props) => {
     const json = await response.json();
     // console.log(json);
     setNotes(json);
+    setLoading(false);
   };
 
   const [notes, setNotes] = useState(notesInitial);
@@ -24,6 +27,7 @@ const NoteState = (props) => {
   //ADD a Note
   const addNote = async (title, description, tag) => {
     //todo api call
+    setLoading(true);
     const response = await fetch(`${host}/api/notes/addnotes/`, {
       method: "POST",
       headers: {
@@ -35,24 +39,12 @@ const NoteState = (props) => {
     });
     const note = await response.json();
     setNotes(notes.concat(note));
-
-    // console.log(json);
-
-    // console.log("Adding a new note");
-    // {
-    //   _id: "65f9380d1b0e770ea6bf6d91saag",
-    //   user: "65f7312306ebd62c41b8445f",
-    //   title: title,
-    //   description: description,
-    //   tag: tag,
-    //   date: "2024-03-19T07:00:29.085Z",
-    //   __v: 0,
-    // };
+    setLoading(false);
   };
   //Delete Note
   const deleteNote = async (id) => {
     //API call
-
+    setLoading(true);
     const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
       method: "DELETE",
       headers: {
@@ -68,11 +60,12 @@ const NoteState = (props) => {
       return note._id !== id;
     });
     setNotes(newNotes);
+    setLoading(false);
   };
   //Edit Note
   const editNote = async (id, title, description, tag) => {
     //API call
-
+    setLoading(true);
     const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
       method: "PUT",
       headers: {
@@ -96,13 +89,14 @@ const NoteState = (props) => {
       }
     }
     setNotes(newNotes);
+    setLoading(false);
   };
 
   //View Note
   const viewNote = () => {};
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, viewNote, getNote }}
+      value={{ notes, addNote, deleteNote, editNote, viewNote, getNote,loading }}
     >
       {props.children}
     </NoteContext.Provider>
