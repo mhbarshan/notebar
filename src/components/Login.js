@@ -9,6 +9,7 @@ function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,6 +23,7 @@ function Login(props) {
         password: credentials.password,
       }),
     });
+    
     const json = await response.json();
     console.log(json);
     console.log(json.authToken);
@@ -29,8 +31,8 @@ function Login(props) {
       //Save the auth token and redirect
       props.showAlert("Welcome!!!", "success");
       localStorage.setItem("token", json.authToken);
-      navigate("/");
       setLoading(false);
+      navigate("/");
     } else {
       props.showAlert("Invalid Credintials", "danger");
       setLoading(false);
@@ -39,13 +41,18 @@ function Login(props) {
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+  console.log(loading)
   return (
     <>
-    {loading && <Spinner />}
-    {!loading && <div className="loginBody">
+   
+  
+    <div className="loginBody">
       <div className="container login">
-        <form onSubmit={handleSubmit}>
-          <h1>Login to NoteBar</h1>
+      <h1>Login to NoteBar</h1>
+      {loading && <Spinner />}
+      {!loading && <form onSubmit={handleSubmit}>
+          
+          
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               <strong>Email</strong>{" "}
@@ -58,6 +65,7 @@ function Login(props) {
               aria-labelledby="emailHelp"
               value={credentials.email}
               onChange={onChange}
+              required
             />
           </div>
           <div className="mb-3">
@@ -71,15 +79,16 @@ function Login(props) {
               name="password"
               onChange={onChange}
               value={credentials.password}
+              required
             />
           </div>
           <button type="submit" className="btn btn-primary loginBtn">
             Submit
           </button>
-        </form>
+        </form>}
       </div>
-    </div>}
-</>
+    </div>
+    </>
   );
 }
 
