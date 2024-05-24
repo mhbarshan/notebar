@@ -20,6 +20,7 @@ function Register(props) {
 
     if (password !== confirmPassword) {
       props.showAlert("Check password again!!!", "danger");
+      setLoading(false)
     } else {
       const response = await fetch(`${host}/api/auth/createuser`, {
         method: "POST",
