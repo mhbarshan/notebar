@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 const host = "https://notebar-be.onrender.com";
 
@@ -11,8 +12,10 @@ function Register(props) {
     confirmPassword: "",
   });
   let navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const { name, email, password, confirmPassword } = credentials;
 
     if (password !== confirmPassword) {
@@ -35,9 +38,11 @@ function Register(props) {
         //Save the auth token and redirect
         props.showAlert("Welcome!!!", "success");
         localStorage.setItem("token", json.authToken);
+        setLoading(false);
         navigate("/");
       } else {
         props.showAlert("Email already Exist!!!", "danger");
+        setLoading(false)
       }
     }
   };
@@ -48,7 +53,8 @@ function Register(props) {
     <div className="regBody">
       <div className="container register">
       <h1>Register on NoteBar!</h1>
-      <div className="container">
+      {loading && <Spinner/>}
+      {!loading && <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -114,7 +120,7 @@ function Register(props) {
             Register
           </button>
         </form>
-      </div>
+      </div>}
     </div>
     </div>
     
